@@ -30,7 +30,7 @@ public class Handler01FileReader implements Handler01FileReaderable {
     @LogTransformation("LogTransformation.log")
     @Override
     public List<DataFromFiles> readFromFile(String strPath) throws IOException {
-        List<DataFromFiles> dataFromFile = new ArrayList<>();
+        List<DataFromFiles> dataFromFiles = new ArrayList<>();
         String delimeter = ";";
         List<Path> files = Files.find(Path.of(strPath), Integer.MAX_VALUE
             , (path, attr) -> path.toString().endsWith(".txt")).toList();
@@ -52,10 +52,10 @@ public class Handler01FileReader implements Handler01FileReaderable {
                                 break;
                         }
                     }
-                    dataFromFile.add(dataFF);
+                    dataFromFiles.add(dataFF);
                 }
             }
-        return dataFromFile;
+        return dataFromFiles;
     }
 
     public List<DataFromFiles> readFiles() throws IOException {

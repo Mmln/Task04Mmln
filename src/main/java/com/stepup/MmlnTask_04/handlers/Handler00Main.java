@@ -15,6 +15,7 @@ import static com.stepup.MmlnTask_04.loggers.LogDebug.debugSout;
 
 @Component
 public class Handler00Main implements Handler00Mainable {
+
     private List<DataFromFiles> dataFromFiles;
     private final Handler01FileReaderable fileReader;
     private final Handler02Checkerable dataChecker;
@@ -29,6 +30,10 @@ public class Handler00Main implements Handler00Mainable {
         this.fileReader = fileReader;
         this.dataWriter = dataWriter;
         this.dataChecker = dataChecker;
+    }
+
+    public List<DataFromFiles> getDataFromFiles() {
+        return this.dataFromFiles;
     }
 
     public  void process() throws IOException {

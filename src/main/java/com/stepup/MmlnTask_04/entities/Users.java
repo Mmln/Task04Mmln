@@ -36,12 +36,6 @@ public class Users {
         this.fio = fio;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private List<Logins> logins = new ArrayList<>();
-    public void addLogins(Logins login){
-        this.logins.add(login);
-    }
     @Override
     public String toString() {
         return "Users{" +

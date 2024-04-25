@@ -18,6 +18,6 @@ public class DataFromFiles {
                 ",fio=" + fio +
                 ",accessDate=" + accessDate +
                 ",appType=" + appType +
-                ",filename=" + fileName + "}";
+                ",filename=" + fileName + "}\n";
     }
 }
