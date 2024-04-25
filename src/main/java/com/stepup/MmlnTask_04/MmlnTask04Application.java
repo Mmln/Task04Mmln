@@ -15,7 +15,7 @@ TODO 7. В тест для наглядности вставлен вывод Sy
 TODO 8. Если в классе LogDebug выставить "private static boolean debug" в значение true, то выведется
 TODO    более подробная отладка (аналог DEBUG_TRIGGER);
 TODO 9. Тест сделан один, но покрывает 93% кода;
-TODO
+TODO A.
 */
 
 import com.stepup.MmlnTask_04.handlers.Handler00Main;
