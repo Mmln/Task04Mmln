@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("checkdate")
-@Order(4)
+@Order(3)
+@LogTransformation("LogTransformation.log")
 public class Checker03Date implements ConveyerDataProcessingAble {
     private final String logFileName = "EmptyDateChecking.log";
 
@@ -32,9 +33,8 @@ public class Checker03Date implements ConveyerDataProcessingAble {
                 datas.getFio() + " {" + Calendar.getInstance().getTime().toString() + "} - error: access_date is empty";
     }
 
-    @LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+    public List<DataFromFiles> process(List<DataFromFiles> datas) throws IOException {
         System.out.println("Checker03Date called");
         List<String> linesToFile = new ArrayList<>();
         List<DataFromFiles> dataOut = datas.stream().filter(x-> (!x.getAccessDate().isEmpty())).

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class LogDebug implements LogDebugable {
 
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     public static void debugSout(List<DataFromFiles> datas){
         if(debug) System.out.print("LogDebug\n" + StringUtils.join(datas, ""));

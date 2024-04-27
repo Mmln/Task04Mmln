@@ -21,18 +21,23 @@ import static com.stepup.MmlnTask_04.loggers.LogDebug.debugSout;
 @AllArgsConstructor
 public class Conveyer implements ConveyerAble {
 
+    private List<DataFromFiles> dataFromFiles;
+
     @Autowired
     public List<ConveyerDataProcessingAble> dataProcessing;
 
-    public  void process() throws IOException {
-        List<DataFromFiles> dataFromFiles = new ArrayList<>();
+    public void produce() throws IOException {
+        dataFromFiles = new ArrayList<>();
 
         System.out.println("\nDataFromFile checking started...");
         for(ConveyerDataProcessingAble prc : dataProcessing){
-            dataFromFiles = prc.processing(dataFromFiles);
+            dataFromFiles = prc.process(dataFromFiles);
             debugSout(dataFromFiles);
         }
         System.out.println("DataFromFile checking finished...\n");
 
+    }
+    public List<DataFromFiles> getDataFromFiles() {
+        return this.dataFromFiles;
     }
 }

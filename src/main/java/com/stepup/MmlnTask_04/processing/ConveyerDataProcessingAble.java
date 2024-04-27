@@ -6,6 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ConveyerDataProcessingAble {
-    List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException;
+    List<DataFromFiles> process(List<DataFromFiles> datas) throws IOException;
 
 }

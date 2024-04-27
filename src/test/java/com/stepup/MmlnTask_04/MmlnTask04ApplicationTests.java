@@ -1,6 +1,9 @@
 package com.stepup.MmlnTask_04;
 
 import com.stepup.MmlnTask_04.interfaces.*;
+import com.stepup.MmlnTask_04.processing.*;
+import com.stepup.MmlnTask_04.repositories.LoginsRepository;
+import com.stepup.MmlnTask_04.repositories.UsersRepository;
 import io.restassured.RestAssured;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.*;
@@ -14,8 +17,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import com.stepup.MmlnTask_04.entities.Logins;
 import com.stepup.MmlnTask_04.entities.Users;
 import com.stepup.MmlnTask_04.entities.DataFromFiles;
-import com.stepup.MmlnTask_04.handlers.*;
-import com.stepup.MmlnTask_04.checkers.*;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -27,10 +28,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
 
 
-//@SpringBootTest
+@SpringBootTest
 //(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MmlnTask04ApplicationTests {
-/*
+
 	//	@LocalServerPort
 //	private Integer port;
 	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
@@ -63,20 +64,27 @@ class MmlnTask04ApplicationTests {
 		System.out.println("@BeforeEach After deleteAll");
 	}
 
-	@Autowired
-	Handler00Mainable handler00Main;
-	@Autowired
-	Handler01FileReaderable fileReader;
-	@Autowired
-	Handler02Checkerable dataChecker;
-	@Autowired
-	Handler03DbWirterable dataWriter;
+    @Autowired
+    Conveyer conveyer;
 
 	@Autowired
-	UsersRepository usersRepository;
+    Handler01FileReader fileReader;
+	@Autowired
+    Handler02DbWirter dataWriter;
+
+
+    @Autowired
+    Checker01Fio checkFio;
+    @Autowired
+    Checker02AppType checkerAppType;
+    @Autowired
+    Checker03Date checkerDate;
 
 	@Autowired
-	LoginsRepository loginsRepository;
+    UsersRepository usersRepository;
+
+	@Autowired
+    LoginsRepository loginsRepository;
 
 	@Test
 	void testOK() {
@@ -87,8 +95,12 @@ class MmlnTask04ApplicationTests {
 	void testHandlers() throws IOException {
 		Assertions.assertNotNull(fileReader);
 		System.out.println("@Test-testHandlers() Assertions.assertNotNull fileReader");
-		Assertions.assertNotNull(dataChecker);
-		System.out.println("@Test-testHandlers() Assertions.assertNotNull dataChecker");
+		Assertions.assertNotNull(checkFio);
+		System.out.println("@Test-testHandlers() Assertions.assertNotNull checkFio");
+        Assertions.assertNotNull(checkerAppType);
+        System.out.println("@Test-testHandlers() Assertions.assertNotNull checkerAppType");
+        Assertions.assertNotNull(checkerDate);
+        System.out.println("@Test-testHandlers() Assertions.assertNotNull checkerDate");
 		Assertions.assertNotNull(dataWriter);
 		System.out.println("@Test-testHandlers() Assertions.assertNotNull dataWriter");
 		System.out.println("@Test-testHandlers() Test passed\n");
@@ -97,7 +109,7 @@ class MmlnTask04ApplicationTests {
 	@Test
 	void testDb() throws IOException {
 
-		List<DataFromFiles> dataFromFiles;
+		List<DataFromFiles> dataFromFiles = new ArrayList<>();
 		List<Users> users;
 		List<Logins> logins;
 
@@ -107,11 +119,16 @@ class MmlnTask04ApplicationTests {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
 		System.out.println("@Test-testDb() Filling DB - started...");
-		handler00Main.process();
+        conveyer.produce();
+//        dataFromFiles = fileReader.process(dataFromFiles);
+//        dataFromFiles = checkFio.process(dataFromFiles);
+//        dataFromFiles = checkerAppType.process(dataFromFiles);
+//        dataFromFiles = checkerDate.process(dataFromFiles);
+//        dataFromFiles = dataWriter.process(dataFromFiles);
 		System.out.println("@Test-testDb() Filling DB - finished...");
 
 		System.out.println("@Test-testDb() Get data from files...");
-		dataFromFiles = handler00Main.getDataFromFiles();
+        dataFromFiles = conveyer.getDataFromFiles();
 
 		System.out.println("@Test-testDb() Read data from DB...");
 		users = (List<Users>) usersRepository.findAll();
@@ -140,6 +157,6 @@ class MmlnTask04ApplicationTests {
 		}
 		System.out.println("@Test-testDb() Test passed\n");
 	}
-*/
+
 }
 

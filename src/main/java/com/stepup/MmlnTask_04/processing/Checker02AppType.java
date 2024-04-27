@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 @Component("checkapptype")
-@Order(3)
+@Order(2)
+@LogTransformation("LogTransformation.log")
 public class Checker02AppType implements ConveyerDataProcessingAble {
     public String checkStrType(String applType) {
         if (applType == null)
@@ -20,9 +21,8 @@ public class Checker02AppType implements ConveyerDataProcessingAble {
         return applType;
     }
 
-    @LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+    public List<DataFromFiles> process(List<DataFromFiles> datas) throws IOException {
         System.out.println("Checker02AppType called");
         datas.stream().peek(x-> x.setAppType(checkStrType(x.getAppType()))).toList();
         return datas;

@@ -2,8 +2,6 @@ package com.stepup.MmlnTask_04.processing;
 
 import com.stepup.MmlnTask_04.repositories.LoginsRepository;
 import com.stepup.MmlnTask_04.repositories.UsersRepository;
-import com.stepup.MmlnTask_04.services.LoginsService;
-import com.stepup.MmlnTask_04.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.stepup.MmlnTask_04.entities.DataFromFiles;
 
@@ -17,19 +15,22 @@ import com.stepup.MmlnTask_04.entities.Users;
 
 import java.util.List;
 
-//@RestController
 @Component
-@Qualifier("database")
-@Order(5)
+@Order(4)
 public class Handler02DbWirter  implements ConveyerDataProcessingAble {
     @Autowired
-    public UsersService usersService;
+    UsersRepository usersRepository;
     @Autowired
-    public LoginsService loginsService;
+    public LoginsRepository loginsRepository;
+
+    public Handler02DbWirter(UsersRepository usersRepository, LoginsRepository loginsRepository) {
+        this.usersRepository = usersRepository;
+        this.loginsRepository = loginsRepository;
+    }
 
     @Override
     @Transactional
-    public List<DataFromFiles> processing(List<DataFromFiles> datas) {
+    public List<DataFromFiles> process(List<DataFromFiles> datas) {
         System.out.println("Handler02DbWirter called");
         datas.sort((o1, o2) -> (o1.getUsername() + o2.getFio()).compareTo(o2.getUsername() + o2.getFio()));
         String keyCmp = "";
@@ -40,18 +41,14 @@ public class Handler02DbWirter  implements ConveyerDataProcessingAble {
                 usr = new Users();
                 usr.setUsername(d.getUsername());
                 usr.setFio(d.getFio());
-                usersService.saveUsers(usr);
+                usersRepository.save(usr);
             }
             Logins log = new Logins();
             log.setApplication(d.getAppType());
             log.setAccessDate(d.getAccessDate());
             log.setUser_id(usr);
-            loginsService.saveLogins(log);
+            loginsRepository.save(log);
         }
         return datas;
     }
-
-
-
-
 }

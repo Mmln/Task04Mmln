@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("checkFio")
-@Order(2)
+@Order(1)
+@LogTransformation("LogTransformation.log")
 public class Checker01Fio implements ConveyerDataProcessingAble {
     public String checkStrFio(String fio) {
         String[] arrStr = fio.split(" ");
@@ -27,9 +28,8 @@ public class Checker01Fio implements ConveyerDataProcessingAble {
         return strRes.toString().trim();
     }
 
-    @LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+    public List<DataFromFiles> process(List<DataFromFiles> datas) throws IOException {
         System.out.println("Checker01Fio called");
         datas.stream().peek(x-> x.setFio(checkStrFio(x.getFio()))).collect(Collectors.toList());
         return datas;

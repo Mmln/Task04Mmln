@@ -1,7 +1,6 @@
 package com.stepup.MmlnTask_04.processing;
 
 import com.stepup.MmlnTask_04.loggers.LogTransformation;
-import com.stepup.MmlnTask_04.loggers.Loggable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
@@ -18,16 +17,15 @@ import java.util.List;
 import java.util.Scanner;
 
 @Component("fileRead")
-@Qualifier("file")
-@Order(1)
+@Order(0)
+@LogTransformation("LogTransformation.log")
 public class Handler01FileReader implements ConveyerDataProcessingAble {
 
     @Value("${file.path}")
     private String path;
 
-    //@LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+    public List<DataFromFiles> process(List<DataFromFiles> datas) throws IOException {
         System.out.println("Handler01FileReader called");
         String strPath;
         if (path == null)

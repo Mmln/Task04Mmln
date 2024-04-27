@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ConveyerAble {
-    public  void process() throws IOException;
+    public  void produce() throws IOException;
 }
