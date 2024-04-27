@@ -5,7 +5,6 @@ import com.stepup.MmlnTask_04.entities.DataFromFiles;
 import java.io.IOException;
 import java.util.List;
 
-public interface Handler00Mainable {
+public interface ConveyerAble {
     public  void process() throws IOException;
-    public List<DataFromFiles> getDataFromFiles();
 }

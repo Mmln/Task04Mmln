@@ -10,10 +10,10 @@ import java.util.List;
 
 public class LogDebug implements LogDebugable {
 
-    private static boolean debug = false;
+    private static boolean debug = true;
 
     public static void debugSout(List<DataFromFiles> datas){
-        if(debug) System.out.print(StringUtils.join(datas, ""));
+        if(debug) System.out.print("LogDebug\n" + StringUtils.join(datas, ""));
     }
 
 }

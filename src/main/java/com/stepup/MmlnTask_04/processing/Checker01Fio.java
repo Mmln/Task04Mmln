@@ -1,15 +1,18 @@
-package com.stepup.MmlnTask_04.checkers;
+package com.stepup.MmlnTask_04.processing;
 
 import com.stepup.MmlnTask_04.entities.DataFromFiles;
-import com.stepup.MmlnTask_04.interfaces.Checker01Fioable;
 import com.stepup.MmlnTask_04.loggers.LogTransformation;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class Checker01Fio implements Checker01Fioable {
+@Component("checkFio")
+@Order(2)
+public class Checker01Fio implements ConveyerDataProcessingAble {
     public String checkStrFio(String fio) {
         String[] arrStr = fio.split(" ");
         StringBuilder strRes = new StringBuilder();
@@ -26,7 +29,8 @@ public class Checker01Fio implements Checker01Fioable {
 
     @LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> checkFio(List<DataFromFiles> datas) {
+    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+        System.out.println("Checker01Fio called");
         datas.stream().peek(x-> x.setFio(checkStrFio(x.getFio()))).collect(Collectors.toList());
         return datas;
     }

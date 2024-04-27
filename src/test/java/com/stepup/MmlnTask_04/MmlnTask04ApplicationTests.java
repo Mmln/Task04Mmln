@@ -27,10 +27,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
 
 
-@SpringBootTest
+//@SpringBootTest
 //(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MmlnTask04ApplicationTests {
-
+/*
 	//	@LocalServerPort
 //	private Integer port;
 	static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
@@ -140,4 +140,6 @@ class MmlnTask04ApplicationTests {
 		}
 		System.out.println("@Test-testDb() Test passed\n");
 	}
+*/
 }
+

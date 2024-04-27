@@ -1,34 +1,36 @@
-package com.stepup.MmlnTask_04.handlers;
+package com.stepup.MmlnTask_04.processing;
 
-import com.stepup.MmlnTask_04.interfaces.Handler03DbWirterable;
-import com.stepup.MmlnTask_04.interfaces.LoginsRepository;
+import com.stepup.MmlnTask_04.repositories.LoginsRepository;
+import com.stepup.MmlnTask_04.repositories.UsersRepository;
+import com.stepup.MmlnTask_04.services.LoginsService;
+import com.stepup.MmlnTask_04.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.stepup.MmlnTask_04.entities.DataFromFiles;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.stepup.MmlnTask_04.entities.Logins;
 import com.stepup.MmlnTask_04.entities.Users;
-import com.stepup.MmlnTask_04.interfaces.UsersRepository;
 //import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 //@RestController
 @Component
-public class Handler03DbWirter implements Handler03DbWirterable {
-    private final UsersRepository usersRepository;
-    private final LoginsRepository loginsRepository;
-
+@Qualifier("database")
+@Order(5)
+public class Handler02DbWirter  implements ConveyerDataProcessingAble {
     @Autowired
-    public Handler03DbWirter(UsersRepository usersRepository, LoginsRepository loginsRepository) {
-        this.usersRepository = usersRepository;
-        this.loginsRepository = loginsRepository;
-    }
+    public UsersService usersService;
+    @Autowired
+    public LoginsService loginsService;
 
     @Override
     @Transactional
-    public void writeDb(List<DataFromFiles> datas) {
+    public List<DataFromFiles> processing(List<DataFromFiles> datas) {
+        System.out.println("Handler02DbWirter called");
         datas.sort((o1, o2) -> (o1.getUsername() + o2.getFio()).compareTo(o2.getUsername() + o2.getFio()));
         String keyCmp = "";
         Users usr = new Users();
@@ -38,14 +40,15 @@ public class Handler03DbWirter implements Handler03DbWirterable {
                 usr = new Users();
                 usr.setUsername(d.getUsername());
                 usr.setFio(d.getFio());
-                usersRepository.save(usr);
+                usersService.saveUsers(usr);
             }
             Logins log = new Logins();
             log.setApplication(d.getAppType());
             log.setAccessDate(d.getAccessDate());
             log.setUser_id(usr);
-            loginsRepository.save(log);
+            loginsService.saveLogins(log);
         }
+        return datas;
     }
 
 

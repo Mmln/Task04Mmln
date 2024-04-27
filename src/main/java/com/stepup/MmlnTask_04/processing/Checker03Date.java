@@ -1,7 +1,7 @@
-package com.stepup.MmlnTask_04.checkers;
+package com.stepup.MmlnTask_04.processing;
 
-import com.stepup.MmlnTask_04.interfaces.Checker03Dateable;
 import com.stepup.MmlnTask_04.loggers.LogTransformation;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import com.stepup.MmlnTask_04.entities.DataFromFiles;
 
@@ -16,8 +16,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class Checker03Date implements Checker03Dateable {
+@Component("checkdate")
+@Order(4)
+public class Checker03Date implements ConveyerDataProcessingAble {
     private final String logFileName = "EmptyDateChecking.log";
 
     private void writeFile(List<String> linesToWrite, String fullFileName) throws IOException {
@@ -33,7 +34,8 @@ public class Checker03Date implements Checker03Dateable {
 
     @LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> checkDate(List<DataFromFiles> datas) throws IOException {
+    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+        System.out.println("Checker03Date called");
         List<String> linesToFile = new ArrayList<>();
         List<DataFromFiles> dataOut = datas.stream().filter(x-> (!x.getAccessDate().isEmpty())).
                 collect(Collectors.toList());

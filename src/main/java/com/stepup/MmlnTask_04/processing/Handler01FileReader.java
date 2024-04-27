@@ -1,8 +1,10 @@
-package com.stepup.MmlnTask_04.handlers;
+package com.stepup.MmlnTask_04.processing;
 
-import com.stepup.MmlnTask_04.interfaces.Handler01FileReaderable;
 import com.stepup.MmlnTask_04.loggers.LogTransformation;
+import com.stepup.MmlnTask_04.loggers.Loggable;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import com.stepup.MmlnTask_04.entities.DataFromFiles;
 
@@ -15,22 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-@Component
-public class Handler01FileReader implements Handler01FileReaderable {
+@Component("fileRead")
+@Qualifier("file")
+@Order(1)
+public class Handler01FileReader implements ConveyerDataProcessingAble {
 
     @Value("${file.path}")
     private String path;
 
-    public String getPath() {
-        if (path == null)
-            return new File("").getAbsolutePath();
-        return path;
-    }
-
-    @LogTransformation("LogTransformation.log")
+    //@LogTransformation("LogTransformation.log")
     @Override
-    public List<DataFromFiles> readFromFile(String strPath) throws IOException {
-        List<DataFromFiles> dataFromFiles = new ArrayList<>();
+    public List<DataFromFiles> processing(List<DataFromFiles> datas) throws IOException {
+        System.out.println("Handler01FileReader called");
+        String strPath;
+        if (path == null)
+            strPath = new File("").getAbsolutePath();
+        else
+            strPath = path;
         String delimeter = ";";
         List<Path> files = Files.find(Path.of(strPath), Integer.MAX_VALUE
             , (path, attr) -> path.toString().endsWith(".txt")).toList();
@@ -52,15 +55,10 @@ public class Handler01FileReader implements Handler01FileReaderable {
                                 break;
                         }
                     }
-                    dataFromFiles.add(dataFF);
+                    datas.add(dataFF);
                 }
             }
-        return dataFromFiles;
-    }
-
-    public List<DataFromFiles> readFiles() throws IOException {
-        String strPath = getPath();
-        return readFromFile(strPath);
+        return datas;
     }
 
 }

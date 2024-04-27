@@ -1,17 +1,12 @@
 package com.stepup.MmlnTask_04.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-@Entity
+@Data
+@AllArgsConstructor
+@Entity(name="Users")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

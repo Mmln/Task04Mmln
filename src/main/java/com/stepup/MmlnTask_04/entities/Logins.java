@@ -2,6 +2,7 @@ package com.stepup.MmlnTask_04.entities;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import com.stepup.MmlnTask_04.entities.Users;
 import lombok.Getter;
@@ -11,7 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
-@Entity
+@AllArgsConstructor
+@Entity(name="Logins")
 public class Logins {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,15 @@ public class Logins {
     @Setter
     @Column(name = "application")
     private String application;
+
+    public Logins(LocalDateTime access_date, Users user_id, String application) {
+        this.access_date = access_date;
+        this.user_id = user_id;
+        this.application = application;
+    }
+
+    public Logins() {
+    }
 
     public void setAccessDate(String date){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
